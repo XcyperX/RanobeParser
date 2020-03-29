@@ -1,6 +1,5 @@
-package com.example.ranobeparser;
+package com.example.ranobeparser.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ranobeparser.R;
+import com.example.ranobeparser.activity.InfoNovelActivity;
+import com.example.ranobeparser.entity.NovelData;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -51,7 +53,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     List<NovelData> novel;
 
-    RVAdapter(List<NovelData> novel){
+    public RVAdapter(List<NovelData> novel){
         this.novel = novel;
     }
 

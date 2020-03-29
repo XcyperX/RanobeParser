@@ -1,4 +1,4 @@
-package com.example.ranobeparser;
+package com.example.ranobeparser.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

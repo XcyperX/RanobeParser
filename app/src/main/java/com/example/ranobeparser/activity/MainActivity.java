@@ -1,4 +1,4 @@
-package com.example.ranobeparser;
+package com.example.ranobeparser.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.example.ranobeparser.JSON.JSONHelper;
+import com.example.ranobeparser.R;
+import com.example.ranobeparser.adapter.RVAdapter;
+import com.example.ranobeparser.entity.NovelData;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -59,17 +64,21 @@ public class MainActivity extends AppCompatActivity {
         rv.setHasFixedSize(true);
         rv.setLayoutManager(lim);
 
-
-        ParseNovel parseNovel = new ParseNovel();
-        parseNovel.execute();
-        try {
-            novelList = parseNovel.get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        boolean loadData = loadMainData();
+        if (loadData) {
+            initializeAdapter();
+        } else {
+            ParseNovel parseNovel = new ParseNovel();
+            parseNovel.execute();
+            try {
+                novelList = parseNovel.get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            initializeAdapter();
         }
-        initializeAdapter();
     }
 
     class ParseNovel extends AsyncTask<Void, Void, List<NovelData>> {
@@ -94,6 +103,29 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        boolean result = JSONHelper.exportToJSONMainData(this, novelList);
+        if (result) {
+//            Toast.makeText(this, "Данные сохраннены", Toast.LENGTH_LONG).show();
+        } else {
+//            Toast.makeText(this, "Ошибка!!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean loadMainData() {
+        List<NovelData> loadData = JSONHelper.importFromJSONMainData(this);
+        if (loadData != null) {
+            novelList = loadData;
+//            Toast.makeText(this, "Данные загружены", Toast.LENGTH_LONG).show();
+            return true;
+        } else {
+//            Toast.makeText(this, "Данных нет", Toast.LENGTH_LONG).show();
+            return false;
         }
     }
 

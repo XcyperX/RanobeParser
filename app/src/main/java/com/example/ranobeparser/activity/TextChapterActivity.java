@@ -1,9 +1,11 @@
-package com.example.ranobeparser;
+package com.example.ranobeparser.activity;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.example.ranobeparser.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
